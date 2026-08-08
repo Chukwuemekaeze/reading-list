@@ -28,7 +28,11 @@ From the repository root:
 docker compose up --build
 ```
 
-Then open http://localhost:8080 in your browser.
+Then open http://localhost:8081 in your browser.
+
+The app listens on port 8080 inside the container; compose maps that to host
+port 8081 (host 8080 is used by something else). To change the host port, edit
+the `ports` mapping in `docker-compose.yml`.
 
 The first boot builds the app image, starts MongoDB, waits for the database
 healthcheck to pass, and only then starts the app. You will see a
@@ -105,7 +109,7 @@ Base path: `/api/books`. All request and response bodies are JSON.
 Create a book:
 
 ```bash
-curl -X POST http://localhost:8080/api/books \
+curl -X POST http://localhost:8081/api/books \
   -H "Content-Type: application/json" \
   -d '{"title":"Dune","author":"Frank Herbert","status":"to-read","tags":["sci-fi"]}'
 ```
@@ -113,7 +117,7 @@ curl -X POST http://localhost:8080/api/books \
 List only books you are currently reading:
 
 ```bash
-curl "http://localhost:8080/api/books?status=reading"
+curl "http://localhost:8081/api/books?status=reading"
 ```
 
 ## How it fits together

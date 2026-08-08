@@ -42,7 +42,8 @@ services:
       MONGO_URL: ${MONGO_URL:-mongodb://root:example@db:27017/?authSource=admin}
       MONGO_DB: ${MONGO_DB:-reading_list}
     ports:
-      - "8080:8080"
+      # Host 8081 maps to the app's 8080 inside the container (8080 is in use on the host).
+      - "8081:8080"
 
 volumes:
   mongo_data:
