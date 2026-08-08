@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reading List</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <h1>Reading List</h1>
+      <p class="subtitle">Track the books you want to read, are reading, and have finished.</p>
+    </header>
+
+    <main class="container">
+      <section class="panel form-panel">
+        <h2 id="form-title">Add a book</h2>
+        <form id="book-form" autocomplete="off">
+          <input type="hidden" id="book-id" />
+
+          <label for="title">Title</label>
+          <input type="text" id="title" name="title" required maxlength="300" />
+
+          <label for="author">Author</label>
+          <input type="text" id="author" name="author" required maxlength="300" />
+
+          <div class="row">
+            <div class="field">
+              <label for="status">Status</label>
+              <select id="status" name="status">
+                <option value="to-read">To read</option>
+                <option value="reading">Reading</option>
+                <option value="done">Done</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="rating">Rating</label>
+              <select id="rating" name="rating">
+                <option value="">No rating</option>
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+            </div>
+          </div>
+
+          <label for="tags">Tags (comma separated)</label>
+          <input type="text" id="tags" name="tags" placeholder="fiction, history" />
+
+          <div class="form-actions">
+            <button type="submit" id="submit-btn" class="primary">Add book</button>
+            <button type="button" id="cancel-btn" class="secondary hidden">Cancel edit</button>
+          </div>
+          <p id="form-error" class="error hidden" role="alert"></p>
+        </form>
+      </section>
+
+      <section class="panel list-panel">
+        <div class="list-header">
+          <h2>Books</h2>
+          <div class="filter">
+            <label for="filter-status">Filter</label>
+            <select id="filter-status">
+              <option value="">All</option>
+              <option value="to-read">To read</option>
+              <option value="reading">Reading</option>
+              <option value="done">Done</option>
+            </select>
+          </div>
+        </div>
+        <p id="list-status" class="muted">Loading...</p>
+        <ul id="book-list" class="book-list"></ul>
+      </section>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>
