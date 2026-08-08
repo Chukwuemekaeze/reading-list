@@ -1,0 +1,48 @@
+services:
+  db:
+    image: mongo:7
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME:-root}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD:-example}
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      # Ping the database from inside the container. Once this passes the app
+      # is allowed to start (see depends_on below).
+      test:
+        [
+          "CMD",
+          "mongosh",
+          "--quiet",
+          "-u",
+          "${MONGO_INITDB_ROOT_USERNAME:-root}",
+          "-p",
+          "${MONGO_INITDB_ROOT_PASSWORD:-example}",
+          "--authenticationDatabase",
+          "admin",
+          "--eval",
+          "db.adminCommand('ping')",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      PORT: 8080
+      MONGO_URL: ${MONGO_URL:-mongodb://root:example@db:27017/?authSource=admin}
+      MONGO_DB: ${MONGO_DB:-reading_list}
+    ports:
+      - "8080:8080"
+
+volumes:
+  mongo_data:
